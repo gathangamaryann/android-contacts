@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyContacts">
         <activity
-            android:name=".viewContactActivity"
+            android:name=".ViewContactActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

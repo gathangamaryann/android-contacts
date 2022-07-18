@@ -1,21 +1,35 @@
 package dev.maryann.mycontacts
-
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.squareup.picasso.Picasso
+import dev.maryann.mycontacts.databinding.ActivityViewContactBinding
 
-class viewContactActivity : AppCompatActivity() {
+class ViewContactActivity : AppCompatActivity() {
+    lateinit var binding:ActivityViewContactBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view_contact)
-        getExtras()
-
+        binding=ActivityViewContactBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        getExtra()
     }
-    fun getExtras(){
+    fun getExtra(){
         val extras=intent.extras
-        val name=extras?.getString("NAME","")
-        val email=extras?.getString("EMAIL","")
-       Toast.makeText(this,"${name}:${email}'s image",Toast.LENGTH_LONG).show()
+        var name=intent.extras?.getString("Name","")
+        var phone=intent.extras?.getString("PHONE_NUMBER","")
+        var email=intent.extras?.getString("Email","")
+        var address=intent.extras?.getString("Address","")
+        var image=binding.imgphoto
+
+        Toast.makeText(this,name,Toast.LENGTH_LONG).show()
+        Toast.makeText(this,phone,Toast.LENGTH_LONG).show()
+        binding.tvname1.text=name
+        binding.tvnumber.text=phone
+        binding.tvemail1.text=email
+        binding.tvaddress1.text=address
+        binding.tvnumber1.text=phone
+        binding.tvnumber2.text=phone
+        Picasso.get().load(intent.getStringExtra("Image")).into(image)
+
     }
 }

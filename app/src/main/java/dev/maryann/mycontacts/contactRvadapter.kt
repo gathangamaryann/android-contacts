@@ -1,7 +1,6 @@
 package dev.maryann.mycontacts
 
 import android.content.Intent
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,50 +13,50 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.PicassoProvider
 import dev.maryann.mycontacts.databinding.ContactListNameBinding
 
-class contactRvadapter (var contactList:List<Contact>): RecyclerView.Adapter<contactRvadapter.ContactViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        var binding=ContactListNameBinding.inflate(
-            LayoutInflater.from(parent.context),parent,false)
-            var contact=ContactViewHolder(binding)
-        return contact
 
+class ContactRvAdapter(var contactlist:List<Contact>):RecyclerView.Adapter<ContactViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder{
+        var binding =ContactListNameBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ContactViewHolder(binding)
     }
-    override fun onBindViewHolder(holder: ContactViewHolder, position:Int) {
-        var currentContact=contactList.get(position)
-        holder.binding.tvName.text=currentContact.name
-        holder.binding.tvnumber.text=currentContact.number
-        holder.binding.tvEmail.text=currentContact.email
-        holder.binding.tvAdress.text=currentContact.address
+
+    override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
+        var currentContact = contactlist.get(position)
+        val contactBinding = holder.binding
+        contactBinding.tvname.text = currentContact.name
+        contactBinding.tvphonenumber.text = currentContact.phonenumber
+        contactBinding.tvemail.text = currentContact.email
+        contactBinding.tvaddress.text = currentContact.address
+
         Picasso.get()
             .load(currentContact.image)
-            .placeholder(R.drawable.ic_baseline_person_24)
-            .error(R.drawable.ic_baseline_error_24)
             .resize(300,300)
             .centerCrop()
-            .networkPolicy(NetworkPolicy.OFFLINE)
-            .into(holder.binding.imgcontact)
-        val context=holder.itemView.context
-        holder.binding.imgcontact.setOnClickListener{
-            Toast.makeText(context,"You have clicked on ${currentContact.name}'s image",Toast.LENGTH_SHORT).show()
-            }
+            .placeholder(R.drawable.ic_baseline_person_24)
+            .into(contactBinding. imgcontact)
 
+        val context =holder.itemView.context
+        holder.binding.imgcontact.setOnClickListener {
+            Toast.makeText(context,"You have to click on the face",Toast.LENGTH_LONG).show()
+        }
 
+        contactBinding.cvcontact.setOnClickListener {
+            val intent=Intent(context,ViewContactActivity::class.java)
+            intent.putExtra("Name",currentContact.name)
+            intent.putExtra("PHONE_NUMBER",currentContact.phonenumber)
+            intent.putExtra("Number",currentContact.number)
+            intent.putExtra("Email",currentContact.email)
+            intent.putExtra("Address",currentContact.address)
+            intent.putExtra("Image",currentContact.image)
+            context.startActivity(intent)
+        }
 
-            holder.binding.cvContact.setOnClickListener(){
-                val intent = Intent(context, viewContactActivity::class.java)
-                intent.putExtra("Name",currentContact.name)
-                intent.putExtra("Email",currentContact.email)
-                context.startActivity(intent)
-            }
     }
-
     override fun getItemCount(): Int {
-      return contactList.size
+        return contactlist.size
     }
-
-
-class ContactViewHolder(var binding: ContactListNameBinding):RecyclerView.ViewHolder(binding.root)
 }
+class ContactViewHolder(var binding:ContactListNameBinding):RecyclerView.ViewHolder(binding.root){
 
 
-
+}
